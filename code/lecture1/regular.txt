@@ -1,0 +1,26 @@
+
+// Semiregular:
+// Copy constructor:
+T a(b); // a == b; &a != &b;
+// Assignment:
+a = b;
+// Destructor:
+~T();
+// Default constructor:
+T a;
+// Note:
+// T a(b); <=> T a; a = b;
+// (assuming b is of type T)
+
+// Regular:
+Semiregular and provides
+==
+!=
+
+// TotallyOrdered:
+Regular and provides
+<
+>
+<=
+>=
+
