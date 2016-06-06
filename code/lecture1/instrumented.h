@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+// instrumented_base holds the static array of counts
 struct instrumented_base
 {
   enum operations {
@@ -14,41 +15,52 @@ struct instrumented_base
   static void initialize(size_t);
 };
 
+// T -> instrumented<T>
+template <typename T>
+// Semiregular(T) || Regular(T) || TotallyOrdered(T)
 
-template <typename T> 
-// T is Semiregular or Regular or TotallyOrdered
-struct instrumented :  instrumented_base
+struct instrumented : instrumented_base
 {
+  // Data (for type functions):
   typedef T value_type;
+
+  // Data (for real):
   T value;
-  // Conversions from T and to T:
+
+  // Conversion functions:
   explicit instrumented(const T& x) : value(x) { ++counts[construction]; }
 
-
-  // Semiregular:
-  instrumented(const instrumented& x) : value(x.value) {
-    ++counts[copy];
-  } 
+  // ops to make the instrumented Semiregular:
+  // copy constructor:
+  instrumented(const instrumented& x) : value(x.value) { ++counts[copy]; }
+  // default constructor:
   instrumented() { ++counts[default_constructor]; }
+  // destructor:
   ~instrumented() { ++counts[destructor]; }
-  instrumented& operator=(const instrumented& x) {  
+  // assignment:
+  instrumented& operator=(const instrumented& x) {
     ++counts[assignment];
     value = x.value;
     return *this;
   }
-  // Regular
-  friend
+
+  // ops to make the instrumented Regular:
+  // equality:
+  friend // so that it's symmetric in its args
   bool operator==(const instrumented& x, const instrumented& y) {
     ++counts[equality];
     return x.value == y.value;
   }
+  // inequality (not implicit... ARGH!!!):
   friend
   bool operator!=(const instrumented& x, const instrumented& y) {
-     return !(x == y);
+    return !(x == y);
   }
-  // TotallyOrdered
+  
+  // ops to make the instrumented TotallyOrdered:
+  // less-than is primary; the rest should be implicit, but aren't:
   friend
-  bool operator<(const instrumented& x, const instrumented& y) { 
+  bool operator<(const instrumented& x, const instrumented& y) {
     ++counts[comparison];
     return x.value < y.value;
   }
@@ -63,16 +75,6 @@ struct instrumented :  instrumented_base
   friend
   bool operator>=(const instrumented& x, const instrumented& y) {
     return !(x < y);
-  } 
-
-
+  }
 };
-
 #endif
-
-
-
-
-
-
-
