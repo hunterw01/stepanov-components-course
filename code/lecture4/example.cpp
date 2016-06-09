@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include "min.h"
 
 template <typename T>
 // requires T is Regular
@@ -19,4 +20,5 @@ int main() {
     double x(0.0/0.0); 
     check_equality1(x);
     check_equality2(x);
+    std::cout << min(5, 3) << std::endl << max(5, 3) << std::endl;
 }

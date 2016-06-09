@@ -1,0 +1,12 @@
+
+figure out how min relates to max
+
+figure out sort of two elements,
+and how it relates to min/max
+
+look at generalization of min and
+max to ranges of elements
+
+look at selection of two elements
+(i.e. largest and second largest)
+doing minimal # of comparisons
