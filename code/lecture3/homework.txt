@@ -1,0 +1,11 @@
+Lecture 3 homework (long project)
+
+Modify count_operations.h to use a second functor (in addition to
+the functor for which sorting algorithm) to describe the shape of
+the input data. The default is currently random_shuffle(iota) where
+iota is a simple range. We should also look at constant data, pre-
+sorted data (increasing and decreasing), valley and hill shaped
+data, not completely sorted but increasing (and decreasing) biased
+data, and each of the above shapes with various proportions of
+repetitious values. Maybe others too, like zipfian distributions,
+exponential distributions, normal distributions, etc.
